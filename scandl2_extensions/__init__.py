@@ -1,1 +1,1 @@
-from .mangafreak_plugin import *
+from .mangafreak import *
