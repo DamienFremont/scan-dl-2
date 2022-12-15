@@ -26,5 +26,4 @@ class mangafreak():
         return arr2
 
     def get_page_img_url(browser, url):
-        browser.get(url)
-        return browser.find_element(By.CSS_SELECTOR, '.read_image div[style*="display: block;"] img').get_attribute('src')
+        return url

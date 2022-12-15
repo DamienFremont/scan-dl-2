@@ -30,7 +30,7 @@ class ext_mangafreak_e2e_test(unittest.TestCase):
         self.assertTrue('https://images.mangafreak.net/mangas/knights_of_sidonia/knights_of_sidonia_1/knights_of_sidonia_1_2.jpg', res[1])
 
     def test_get_page_img_url(self):
-        arg = "http://w14.mangafreak.net/Read1_Knights_Of_Sidonia_1"
+        arg = "https://images.mangafreak.net/mangas/knights_of_sidonia/knights_of_sidonia_1/knights_of_sidonia_1_1.jpg"
         res = mangafreak.get_page_img_url(self.browser, arg)
         self.assertEqual('https://images.mangafreak.net/mangas/knights_of_sidonia/knights_of_sidonia_1/knights_of_sidonia_1_1.jpg', res)
 

@@ -1,7 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-TIME_TO_WAIT = 15 # seconds
+# BROWSER
+
+TIME_TO_WAIT = 60 # seconds
 
 def browser_init():
     chrome_options = Options()
@@ -13,3 +15,7 @@ def browser_init():
 
 def browser_quit(browser):
     browser.quit()
+
+# DOWNLOAD
+
+
