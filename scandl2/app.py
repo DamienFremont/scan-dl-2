@@ -1,11 +1,11 @@
 
-import time, requests, os, datetime
 from scandl2 import infra
 from scandl2_extensions import mangafreak
+import time
+
 
 # PUBLIC **********************************************************************
-  
-DATE_FMT = "%Y%m%d_%H%M%S"
+
 
 def execute(url):
     print("Start")
@@ -32,7 +32,7 @@ def execute(url):
         out = arr[i]
         chapters.append(out)
         print(f"output item: {out}")
-    
+
     print(f"STEP: pages")
     for i in range(0, len(chapters)):
         inp = chapters[i]
@@ -57,25 +57,25 @@ def execute(url):
     print(f"JOB: download")
 
     print(f"RES: create target folder")
-    now = datetime.datetime.now()
-    target_dir = os.path.join('.output', f"{now.strftime(DATE_FMT)}")
-    os.makedirs(target_dir)
-    print(f"output item: {target_dir}")
+    dir = infra.files_create_ouput()
+    print(f"output item: {dir}")
 
     print(f"STEP: download")
-    dir = os.path.join(target_dir, 'img')
-    os.makedirs(dir)
+    files = []
     for i in range(0, len(imgs)):
         inp = imgs[i]
         print(f"input item: {inp}")
-        res = requests.get(inp, allow_redirects=True)
-        out = os.path.join(dir, f"img-{i:06d}.jpg")
-        open(out, 'wb').write(res.content)
+        out = infra.web_download(inp)
+        files.append(out)
         print(f"output item: {out}")
         time.sleep(3)
 
     # PDF JOB
-    
+    print(f"JOB: pdf")
+    print(f"input item: {dir}")
+    filename = infra.slugify(title)
+    out = infra.pdf_create(dir, files, 'filename')
+    print(f"output item: {out}")
 
     print('End')
     tearDown(browser)
