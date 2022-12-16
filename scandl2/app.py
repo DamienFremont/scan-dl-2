@@ -6,6 +6,8 @@ import time
 
 # PUBLIC **********************************************************************
 
+ITEM_SLEEP_INTERVAL = 0  # secondes
+
 
 def execute(url):
     print("Start")
@@ -42,7 +44,7 @@ def execute(url):
             out = arr[i]
             pages.append(out)
             print(f"output item: {out}")
-        time.sleep(3)
+        time.sleep(ITEM_SLEEP_INTERVAL)
 
     print(f"STEP: imgs")
     for i in range(0, len(pages)):
@@ -51,7 +53,7 @@ def execute(url):
         out = plugin.get_page_img_url(browser, inp)
         imgs.append(out)
         print(f"output item: {out}")
-        time.sleep(3)
+        time.sleep(ITEM_SLEEP_INTERVAL)
 
     # DOWNLOAD JOB
     print(f"JOB: download")
@@ -65,16 +67,16 @@ def execute(url):
     for i in range(0, len(imgs)):
         inp = imgs[i]
         print(f"input item: {inp}")
-        out = infra.web_download(inp)
+        out = infra.web_download(inp, dir, i)
         files.append(out)
         print(f"output item: {out}")
-        time.sleep(3)
+        time.sleep(ITEM_SLEEP_INTERVAL)
 
     # PDF JOB
     print(f"JOB: pdf")
     print(f"input item: {dir}")
     filename = infra.slugify(title)
-    out = infra.pdf_create(dir, files, 'filename')
+    out = infra.pdf_create(files, dir, filename)
     print(f"output item: {out}")
 
     print('End')

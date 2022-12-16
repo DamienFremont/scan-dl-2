@@ -39,7 +39,7 @@ def files_create_ouput():
 # DOWNLOAD
 
 
-def web_download(inp):
+def web_download(inp, dir, i):
     res = requests.get(inp, allow_redirects=True)
     out = os.path.join(dir, f"img-{i:06d}.jpg")
     open(out, 'wb').write(res.content)
@@ -52,7 +52,7 @@ FORMAT = 'A5'
 
 
 def pdf_create(files, dest, filename):
-    out = os.path.join(dest, re.sub(r'\W+', '', filename) + '.pdf')
+    out = os.path.join(dest, f"{filename}.pdf")
 
     class PDF(FPDF, HTMLMixin):
         pass
