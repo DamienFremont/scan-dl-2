@@ -2,8 +2,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from scandl2.plugin import iplugin
 
-class mangafreak():
+class mangafreak(iplugin):
 
     def get_serie_title(browser, url):
         browser.get(url)

@@ -1,11 +1,11 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import requests
 import os
 import datetime
 from fpdf import FPDF, HTMLMixin
-import unicodedata
 import re
+import urllib
+from urllib.parse import urlparse
 
 # BROWSER
 
@@ -39,10 +39,15 @@ def files_create_ouput():
 # DOWNLOAD
 
 
-def web_download(inp, dir, i):
-    res = requests.get(inp, allow_redirects=True)
+def web_download(url, dir, i, referer):
     out = os.path.join(dir, f"img-{i:06d}.jpg")
-    open(out, 'wb').write(res.content)
+    req = urllib.request.Request(url, headers={
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:107.0) Gecko/20100101 Firefox/107.0',
+        'Referer': referer})
+    res = urllib.request.urlopen(req)
+    fo = open(out, 'wb')
+    fo.write(res.read())
+    fo.close()
     return out
 
 # PDF
@@ -67,3 +72,13 @@ def pdf_create(files, dest, filename):
 
 def slugify(value, allow_unicode=False):
     return re.sub(r'\W+', '', value)
+
+# WEB
+
+
+def get_site(url):
+    netloc = urlparse(url).netloc
+    parts = netloc.split('.')
+    if(len(parts) == 2):
+        return netloc.split('.')[0]
+    return netloc.split('.')[1]

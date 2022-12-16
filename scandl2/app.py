@@ -1,7 +1,9 @@
 
 from scandl2 import infra
-from scandl2_extensions import mangafreak
+from scandl2.plugin import iplugin
 import time
+import sys
+import importlib
 
 
 # PUBLIC **********************************************************************
@@ -9,11 +11,24 @@ import time
 ITEM_SLEEP_INTERVAL = 0  # secondes
 
 
+def get_plugin(name):
+    try:
+        sys.path.insert(0, 'scandl2_extensions')
+        module = importlib.import_module(f"scandl2_extensions.{name}")
+        serializer : iplugin = getattr(module, f"{name}")
+    except (ImportError, AttributeError):
+        raise ValueError(f"Unknown format {name!r}") from None
+
+    return serializer
+
+
 def execute(url):
     print("Start")
     browser = setUp()
 
-    plugin = mangafreak
+    site = infra.get_site(url)
+    plugin = get_plugin(site)
+    print(f"plugin: {site}")
 
     print(f"JOB: find")
 
@@ -67,7 +82,7 @@ def execute(url):
     for i in range(0, len(imgs)):
         inp = imgs[i]
         print(f"input item: {inp}")
-        out = infra.web_download(inp, dir, i)
+        out = infra.web_download(inp, dir, i, url)
         files.append(out)
         print(f"output item: {out}")
         time.sleep(ITEM_SLEEP_INTERVAL)
