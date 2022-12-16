@@ -56,7 +56,7 @@ def web_download(url, dir, i, referer):
 FORMAT = 'A5'
 
 
-def pdf_create(files, dest, filename):
+def pdf_create_from_imgs(files, dest, filename):
     out = os.path.join(dest, f"{filename}.pdf")
 
     class PDF(FPDF, HTMLMixin):

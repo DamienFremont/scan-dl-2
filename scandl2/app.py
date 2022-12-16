@@ -1,25 +1,11 @@
 
 from scandl2 import infra
-from scandl2.plugin import iplugin
+from scandl2.plugin import get_plugin
 import time
-import sys
-import importlib
-
 
 # PUBLIC **********************************************************************
 
 ITEM_SLEEP_INTERVAL = 0  # secondes
-
-
-def get_plugin(name):
-    try:
-        sys.path.insert(0, 'scandl2_extensions')
-        module = importlib.import_module(f"scandl2_extensions.{name}")
-        serializer : iplugin = getattr(module, f"{name}")
-    except (ImportError, AttributeError):
-        raise ValueError(f"Unknown format {name!r}") from None
-
-    return serializer
 
 
 def execute(url):
@@ -91,7 +77,7 @@ def execute(url):
     print(f"JOB: pdf")
     print(f"input item: {dir}")
     filename = infra.slugify(title)
-    out = infra.pdf_create(files, dir, filename)
+    out = infra.pdf_create_from_imgs(files, dir, filename)
     print(f"output item: {out}")
 
     print('End')
